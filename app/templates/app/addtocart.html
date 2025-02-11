@@ -1,0 +1,78 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}Cart{% endblock title %}
+{% block main-content %}
+<div class="container my-5">
+  <div class="row">
+    <h1 class="text-center mb-5 display-4">Shopping Cart</h1>
+    <!-- Cart Items Section -->
+    <div class="col-md-8">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h3 class="mb-4">Your Cart</h3>
+          {% for cart in carts %}
+          <hr class="my-4">
+          <div class="row">
+            <div class="col-sm-3 text-center align-self-center">
+              <img src="{{cart.product.product_image.url}}" alt="" class="img-fluid rounded shadow-sm">
+            </div>
+            <div class="col-sm-9">
+              <h5 class="text-primary">{{cart.product.title}}</h5>
+              <p class="mb-2 text-muted small">{{cart.product.description}}</p>
+              <div class="my-3 d-flex align-items-center">
+                <label class="me-2" for="quantity">Quantity:</label>
+                <a class="btn btn-outline-secondary btn-sm minus-cart" pid="{{cart.product.id}}">
+                  <i class="fas fa-minus"></i>
+                </a>
+                <span id="quantity" class="mx-2">{{cart.quantity}}</span>
+                <a class="btn btn-outline-secondary btn-sm plus-cart" pid="{{cart.product.id}}">
+                  <i class="fas fa-plus"></i>
+                </a>
+              </div>
+              <div class="d-flex justify-content-between align-items-center">
+                <a href="#" class="btn btn-danger btn-sm remove-cart" pid="{{cart.product.id}}">Remove item</a>
+                <p class="mb-0"><strong>Rs.{{cart.product.discounted_price}}</strong></p>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    <!-- Total Amount Section -->
+    <div class="col-md-4">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h3 class="text-center mb-4">Order Summary</h3>
+          <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
+              Subtotal <span>Rs. <span id="amount">{{amount}}</span></span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+              Shipping <span>Rs. 70.00</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+              <div>
+                <strong>Total</strong> <small>(incl. VAT)</small>
+              </div>
+              <span><strong>Rs. <span id="totalamount">{{total_amount}}</span></strong></span>
+            </li>
+          </ul>
+          <a href="{% url 'checkout' %}" class="btn btn-success btn-lg w-100">Place Order</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Payment Methods -->
+  <div class="row mt-5">
+    <div class="col-md-8">
+      <div class="card shadow-sm">
+        <div class="card-body text-center">
+          <h5 class="mb-4">We Accept</h5>
+          <img src="{% static 'app/images/payment.png' %}" alt="Payment Methods" class="img-fluid">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock main-content %}
